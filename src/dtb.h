@@ -14,23 +14,12 @@
  *    - Iker Galardi
  */
 
-#ifndef SYSTEM_INFO_H
-#define SYSTEM_INFO_H
+#ifndef DTB_H
+#define DTB_H
 
 #include "common.h"
 
-#define INFORMATION_STATUS_OK               0
-#define INFORMATION_STATUS_NO_STRUCTURE     1
-#define INFORMATION_STATUS_INFO_MISSING     2
-
-struct system_info
-{
-    unsigned char info_status;
-    // Memory related information
-    unsigned int mem_start;
-    unsigned int mem_size;
-    unsigned int mem_default_page_size;
-} ATTRIBUTE_PACKED;
+int get_is_dtb_file(void* dtb_addr);
 
 
-#endif // SYSTEM_INFO_H
+#endif // DTB_H

@@ -14,23 +14,22 @@
  *    - Iker Galardi
  */
 
-#ifndef SYSTEM_INFO_H
-#define SYSTEM_INFO_H
+#include "dtb.h"
 
-#include "common.h"
+typedef struct dtb_header {
+    int magic;
+    int total_size;
+    int off_dt_struct;
+    int off_dt_strings;
+    int off_mem_rsvmap;
+    int version;
+    int last_comp_version;
+    int boot_cpuid_phys;
+    int size_dt_strings;
+    int size_dt_struct;
+};
 
-#define INFORMATION_STATUS_OK               0
-#define INFORMATION_STATUS_NO_STRUCTURE     1
-#define INFORMATION_STATUS_INFO_MISSING     2
-
-struct system_info
-{
-    unsigned char info_status;
-    // Memory related information
-    unsigned int mem_start;
-    unsigned int mem_size;
-    unsigned int mem_default_page_size;
-} ATTRIBUTE_PACKED;
-
-
-#endif // SYSTEM_INFO_H
+int get_is_dtb_file(void* dtb_addr) {
+    struct dtb_header* header = (struct dtb_header*)dtb_addr;
+    return header->magic != -302117424;
+}
