@@ -19,7 +19,7 @@
 
 #include "common.h"
 
-int get_is_dtb_file(void* dtb_addr);
+int dtb_verify(void* dtb_addr);
 
 
 #endif // DTB_H

@@ -16,20 +16,25 @@
 
 #include "dtb.h"
 
-typedef struct dtb_header {
-    int magic;
-    int total_size;
-    int off_dt_struct;
-    int off_dt_strings;
-    int off_mem_rsvmap;
-    int version;
-    int last_comp_version;
-    int boot_cpuid_phys;
-    int size_dt_strings;
-    int size_dt_struct;
-};
+#include "utils.h"
 
-int get_is_dtb_file(void* dtb_addr) {
-    struct dtb_header* header = (struct dtb_header*)dtb_addr;
-    return header->magic != -302117424;
+#define DTB_MAGIC_NUMBER_BIG_ENDIAN 0xd00dfeed
+#define DTB_MAGIC_NUMBER_LITTLE_ENDIAN BYTESWAP32(DTB_MAGIC_NUMBER_BIG_ENDIAN) 
+
+typedef struct dtb_header {
+    unsigned int magic;
+    unsigned int total_size;
+    unsigned int off_dt_struct;
+    unsigned int off_dt_strings;
+    unsigned int off_mem_rsvmap;
+    unsigned int version;
+    unsigned int last_comp_version;
+    unsigned int boot_cpuid_phys;
+    unsigned int size_dt_strings;
+    unsigned int size_dt_struct;
+} dtb_header_t;
+
+int dtb_verify(void* dtb_addr) {
+    dtb_header_t* header = (dtb_header_t*)dtb_addr;
+    return header->magic != DTB_MAGIC_NUMBER_LITTLE_ENDIAN;
 }
