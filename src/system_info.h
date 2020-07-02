@@ -26,10 +26,14 @@
 struct system_info
 {
     unsigned char info_status;
+    
     // Memory related information
     unsigned int mem_start;
     unsigned int mem_size;
     unsigned int mem_default_page_size;
+
+    unsigned int mem_reserved_start;
+    unsigned int mem_reserved_size; 
 } ATTRIBUTE_PACKED;
 
 

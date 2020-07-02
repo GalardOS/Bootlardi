@@ -32,7 +32,7 @@ void boot_main()
         printf("    DTB found!\n");
         /// TODO: do dtb things
     } else {
-
+        /// TODO: check atags
     }
 
     while(1);
