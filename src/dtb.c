@@ -36,5 +36,5 @@ typedef struct dtb_header {
 
 int dtb_verify(void* dtb_addr) {
     dtb_header_t* header = (dtb_header_t*)dtb_addr;
-    return header->magic != DTB_MAGIC_NUMBER_LITTLE_ENDIAN;
+    return header->magic == DTB_MAGIC_NUMBER_LITTLE_ENDIAN || header->magic == DTB_MAGIC_NUMBER_BIG_ENDIAN;
 }
