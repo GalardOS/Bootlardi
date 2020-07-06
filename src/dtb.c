@@ -36,6 +36,13 @@ typedef struct dtb_header {
 
 int dtb_verify(void* dtb_addr) {
     // Check the magic number from the header of the dtb file
+    // and the last comp version to check if the dtb reader is 
+    // compatible with the dtb version
+
     dtb_header_t* header = (dtb_header_t*)dtb_addr;
-    return header->magic == DTB_MAGIC_NUMBER_LITTLE_ENDIAN || header->magic == DTB_MAGIC_NUMBER_BIG_ENDIAN;
+    
+    int is_dtb = header->magic == DTB_MAGIC_NUMBER_LITTLE_ENDIAN || header->magic == DTB_MAGIC_NUMBER_BIG_ENDIAN;
+    int is_compatible = header->version == 17;
+
+    return is_dtb && is_compatible;
 }
