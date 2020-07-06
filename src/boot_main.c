@@ -26,6 +26,9 @@ void boot_main()
     init_printf(0, muart_printf_send_char);
 
     printf("[+] Reading system information...\r\n");
+    
+    // 0x100 is the address where the bootloader loads the dtb file contents
+    /// TODO: get the dtb address from x2 register rather than hardcoded
     void* dtb_addr = (void*)0x100;
     
     if(dtb_verify(dtb_addr)) {

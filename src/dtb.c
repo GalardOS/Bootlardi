@@ -35,6 +35,7 @@ typedef struct dtb_header {
 } dtb_header_t;
 
 int dtb_verify(void* dtb_addr) {
+    // Check the magic number from the header of the dtb file
     dtb_header_t* header = (dtb_header_t*)dtb_addr;
     return header->magic == DTB_MAGIC_NUMBER_LITTLE_ENDIAN || header->magic == DTB_MAGIC_NUMBER_BIG_ENDIAN;
 }

@@ -19,6 +19,10 @@
 
 #include "common.h"
 
+
+/// Vefifies that a dtb file is located on the address
+///     dtb_addr: address where
+///     return: 0 if there is a dtb file, 1 if not
 int dtb_verify(void* dtb_addr);
 
 
