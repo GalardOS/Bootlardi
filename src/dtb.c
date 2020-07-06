@@ -42,7 +42,7 @@ int dtb_verify(void* dtb_addr) {
     dtb_header_t* header = (dtb_header_t*)dtb_addr;
     
     int is_dtb = header->magic == DTB_MAGIC_NUMBER_LITTLE_ENDIAN || header->magic == DTB_MAGIC_NUMBER_BIG_ENDIAN;
-    int is_compatible = header->version == 17;
+    int is_compatible = header->version == 17 || header->version == 16;
 
     return is_dtb && is_compatible;
 }
