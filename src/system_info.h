@@ -17,24 +17,22 @@
 #ifndef SYSTEM_INFO_H
 #define SYSTEM_INFO_H
 
-#include "common.h"
+typedef struct memory_reservation_entry {
+    unsigned long start;
+    unsigned long size;
+} memory_reservation_entry_t;
 
-#define INFORMATION_STATUS_OK               0
-#define INFORMATION_STATUS_NO_STRUCTURE     1
-#define INFORMATION_STATUS_INFO_MISSING     2
+typedef struct memory_info {
+    unsigned long mem_start;
+    unsigned long mem_size;
 
-struct system_info
+    int n_reserved_areas;
+    memory_reservation_entry_t reserved_areas[20];
+} memory_info_t;
+
+typedef struct system_info
 {
-    unsigned char info_status;
-    
-    // Memory related information
-    unsigned int mem_start;
-    unsigned int mem_size;
-    unsigned int mem_default_page_size;
-
-    unsigned int mem_reserved_start;
-    unsigned int mem_reserved_size; 
-} ATTRIBUTE_PACKED;
-
+    memory_info_t memory;
+} system_info_t;
 
 #endif // SYSTEM_INFO_H
