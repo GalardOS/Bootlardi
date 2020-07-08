@@ -17,6 +17,7 @@
 #include "dtb.h"
 
 #include "utils.h"
+#include "printf.h"
 
 #define DTB_MAGIC_NUMBER_BIG_ENDIAN 0xd00dfeed
 #define DTB_MAGIC_NUMBER_LITTLE_ENDIAN BYTESWAP32(DTB_MAGIC_NUMBER_BIG_ENDIAN) 
@@ -34,6 +35,11 @@ typedef struct dtb_header {
     unsigned int size_dt_struct;
 } dtb_header_t;
 
+typedef struct mem_rsvmap_entry {
+    unsigned long address;
+    unsigned long size;
+} mem_rsvmap_entry_t;
+
 int dtb_verify(void* dtb_addr) {
     // Check the magic number from the header of the dtb file
     // and the last comp version to check if the dtb reader is 
@@ -42,7 +48,30 @@ int dtb_verify(void* dtb_addr) {
     dtb_header_t* header = (dtb_header_t*)dtb_addr;
     
     int is_dtb = header->magic == DTB_MAGIC_NUMBER_LITTLE_ENDIAN || header->magic == DTB_MAGIC_NUMBER_BIG_ENDIAN;
-    int is_compatible = header->version == 17 || header->version == 16;
+    int is_compatible = BYTESWAP32(header->version) == 17 || BYTESWAP32(header->version) == 16;
 
     return is_dtb && is_compatible;
+}
+
+int dtb_get_reserved_areas(void* dtb_addr, memory_reservation_entry_t* array) {
+    dtb_header_t* header = (dtb_header_t*)dtb_addr;
+    int rsv_offset = BYTESWAP32(header->off_mem_rsvmap);
+
+    int n_reserved_areas = 0;
+    mem_rsvmap_entry_t* entry = (mem_rsvmap_entry_t*)(dtb_addr + rsv_offset);
+
+    while(entry->address != 0 && entry->size != 0) {
+        n_reserved_areas++;
+
+        // Check if too many reserved areas 
+        if(n_reserved_areas >= 20)
+            return -1;
+
+        array[n_reserved_areas - 1].start = entry->address;
+        array[n_reserved_areas - 1].size = entry->size;
+
+        entry = entry + sizeof(mem_rsvmap_entry_t);
+    }
+
+    return n_reserved_areas;
 }

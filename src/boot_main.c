@@ -21,7 +21,7 @@
 #include "mem_utils.h"
 #include "dtb.h"
 
-void boot_main()
+void boot_main(long x0, long x1, long x2)
 {
     init_printf(0, muart_printf_send_char);
 

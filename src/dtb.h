@@ -10,20 +10,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * Authors:
+ * Authors:d
  *    - Iker Galardi
  */
 
 #ifndef DTB_H
 #define DTB_H
 
-#include "common.h"
-
+#include "system_info.h"
 
 /// Vefifies that a compatible dtb file is located on the address
-///     dtb_addr: address where
+///     dtb_addr: address where the dtb file resides
 ///     return: 0 if there is a dtb file, 1 if not
 int dtb_verify(void* dtb_addr);
 
+/// Fills the array of reserved entries and returns how many entries where found
+///     dtb_addr: address where the dtb file resides
+///     entry_array: the pointer to the first element of the entries array
+///     return: number of reserved memory areas, -1 when too much reserved areas
+int dtb_get_reserved_areas(void* dtb_addr, memory_reservation_entry_t* array);
 
 #endif // DTB_H
